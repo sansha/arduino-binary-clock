@@ -31,14 +31,14 @@ Adafruit_NeoPixel minutes = Adafruit_NeoPixel(8, minutes_pin, NEO_GRB + NEO_KHZ8
 // pin for TIME_ZONE on / off switch
 #ifdef TIME_ZONE_SWTICH
   int time_zone_pin = 2;
-  int time_adjust_hour = 4;
-  int time_adjust_minutes = 30;
+  int time_adjust_hour = -4;
+  int time_adjust_minutes = -30;
 #endif
 
 // color array for base and "on" color
-//                              base                      on
-uint32_t colors_day[] = {minutes.Color(0,0,10), minutes.Color(100, 20, 0)};
-uint32_t colors_night[] = {minutes.Color(0,0,0), minutes.Color(2, 1, 0)};
+//                              base                      on (RGB)
+uint32_t colors_day[] = {minutes.Color(0,0,5), minutes.Color(50, 0, 0)};
+uint32_t colors_night[] = {minutes.Color(0,0,0), minutes.Color(2, 0, 0)};
 
 // array for the actual colors to be used (filled with either day or night by loop())
 uint32_t colors[2];
@@ -54,6 +54,11 @@ void setup() {
   // set up connection to RTC
   Wire.begin();
   RTC.begin();
+  
+  //***********************************TIME ADJUST*******************************************************************
+  //adjust time to YYYY,MM,DD, hour, minute, second
+  //RTC.adjust(DateTime(2016, 11, 16, 14, 38, 0));
+  
   #ifdef TIME_ZONE_SWTICH
     // set necessary pins modes
     // the TIME_ZONE is input of course, but the PIN 3 (next to it) needs to be output
